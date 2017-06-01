@@ -1,6 +1,7 @@
 
 var Canvas2dRenderer = (function Canvas2dRendererClosure() {
 
+  // 画一个简单的色带作为后面着色时的取色器
   var _getColorPalette = function(config) {
     var gradientConfig = config.gradient || config.defaultGradient;
     var paletteCanvas = document.createElement('canvas');
@@ -20,6 +21,7 @@ var Canvas2dRenderer = (function Canvas2dRendererClosure() {
     return paletteCtx.getImageData(0, 0, 256, 1).data;
   };
 
+  // 这里只是画出不带颜色的渐变效果，目的是为了生成图像的alpha
   var _getPointTemplate = function(radius, blurFactor) {
     var tplCanvas = document.createElement('canvas');
     var tplCtx = tplCanvas.getContext('2d');
@@ -215,6 +217,7 @@ var Canvas2dRenderer = (function Canvas2dRendererClosure() {
 
       }
     },
+    // 着色
     _colorize: function() {
       var x = this._renderBoundaries[0];
       var y = this._renderBoundaries[1];
@@ -248,6 +251,7 @@ var Canvas2dRenderer = (function Canvas2dRendererClosure() {
 
       for (var i = 3; i < len; i+= 4) {
         var alpha = imgData[i];
+        // 根据当前点的alpha值到取色器上取色
         var offset = alpha * 4;
 
 
