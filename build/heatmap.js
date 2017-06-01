@@ -4,7 +4,7 @@
  * Copyright 2008-2016 Patrick Wied <heatmapjs@patrick-wied.at> - All rights reserved.
  * Dual licensed under MIT and Beerware license 
  *
- * :: 2016-09-05 01:16
+ * :: 2017-06-01 18:36
  */
 ;(function (name, context, factory) {
 
@@ -430,13 +430,12 @@ var Canvas2dRenderer = (function Canvas2dRendererClosure() {
         var shadowCtx = this.shadowCtx;
 
 
-
-
+        var templateCacheKey = radius + '-' + blur;
         var tpl;
-        if (!this._templates[radius]) {
-          this._templates[radius] = tpl = _getPointTemplate(radius, blur);
+        if (!this._templates[templateCacheKey]) {
+          this._templates[templateCacheKey] = tpl = _getPointTemplate(radius, blur);
         } else {
-          tpl = this._templates[radius];
+          tpl = this._templates[templateCacheKey];
         }
         // value from minimum / value range
         // => [0, 1]
