@@ -4,7 +4,7 @@
  * Copyright 2008-2016 Patrick Wied <heatmapjs@patrick-wied.at> - All rights reserved.
  * Dual licensed under MIT and Beerware license 
  *
- * :: 2016-09-05 01:16
+ * :: 2017-07-06 17:18
  */
 ;(function (name, context, factory) {
 
@@ -201,7 +201,19 @@ var Store = (function StoreClosure() {
     },
     getData: function() {
       return this._unOrganizeData();
-    }/*,
+    },
+    resetRadius: function(radius){
+      if (radius) {
+        this._cfgRadius = radius;
+        var radi = this._radi;
+        for(var x in radi){
+          for(var y in radi[x]){
+            radi[x][y] = radius;
+          }
+        }
+      } // end if
+    }
+    /*,
 
       TODO: rethink.
 
@@ -432,11 +444,12 @@ var Canvas2dRenderer = (function Canvas2dRendererClosure() {
 
 
 
+        var templateCacheKey = radius + '-' + blur;
         var tpl;
-        if (!this._templates[radius]) {
-          this._templates[radius] = tpl = _getPointTemplate(radius, blur);
+        if (!this._templates[templateCacheKey]) {
+          this._templates[templateCacheKey] = tpl = _getPointTemplate(radius, blur);
         } else {
-          tpl = this._templates[radius];
+          tpl = this._templates[templateCacheKey];
         }
         // value from minimum / value range
         // => [0, 1]
@@ -678,6 +691,7 @@ var Heatmap = (function HeatmapClosure() {
     configure: function(config) {
       this._config = Util.merge(this._config, config);
       this._renderer.updateConfig(this._config);
+      this._store.resetRadius(config["radius"]); // reset radius
       this._coordinator.emit('renderall', this._store._getInternalData());
       return this;
     },
