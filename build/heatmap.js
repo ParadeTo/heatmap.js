@@ -4,7 +4,7 @@
  * Copyright 2008-2016 Patrick Wied <heatmapjs@patrick-wied.at> - All rights reserved.
  * Dual licensed under MIT and Beerware license 
  *
- * :: 2017-06-01 18:36
+ * :: 2017-07-06 17:18
  */
 ;(function (name, context, factory) {
 
@@ -201,7 +201,19 @@ var Store = (function StoreClosure() {
     },
     getData: function() {
       return this._unOrganizeData();
-    }/*,
+    },
+    resetRadius: function(radius){
+      if (radius) {
+        this._cfgRadius = radius;
+        var radi = this._radi;
+        for(var x in radi){
+          for(var y in radi[x]){
+            radi[x][y] = radius;
+          }
+        }
+      } // end if
+    }
+    /*,
 
       TODO: rethink.
 
@@ -428,6 +440,8 @@ var Canvas2dRenderer = (function Canvas2dRendererClosure() {
         var rectX = x - radius;
         var rectY = y - radius;
         var shadowCtx = this.shadowCtx;
+
+
 
 
         var templateCacheKey = radius + '-' + blur;
@@ -677,6 +691,7 @@ var Heatmap = (function HeatmapClosure() {
     configure: function(config) {
       this._config = Util.merge(this._config, config);
       this._renderer.updateConfig(this._config);
+      this._store.resetRadius(config["radius"]); // reset radius
       this._coordinator.emit('renderall', this._store._getInternalData());
       return this;
     },

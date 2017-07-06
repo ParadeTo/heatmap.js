@@ -167,7 +167,19 @@ var Store = (function StoreClosure() {
     },
     getData: function() {
       return this._unOrganizeData();
-    }/*,
+    },
+    resetRadius: function(radius){
+      if (radius) {
+        this._cfgRadius = radius;
+        var radi = this._radi;
+        for(var x in radi){
+          for(var y in radi[x]){
+            radi[x][y] = radius;
+          }
+        }
+      } // end if
+    }
+    /*,
 
       TODO: rethink.
 
